@@ -1,7 +1,11 @@
 // gameboard module
 var gameBoard =   (function() {
 
-    var gameboard = [];
+    var gameboard = [
+        ["X", "X", "O"],
+        ["O", "O", "X"],
+        ["X", "O", "X"]
+    ];
 
 
 })();
