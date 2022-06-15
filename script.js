@@ -25,7 +25,17 @@ var Player = (name) => {
 // display controller module 
 var displayController = (function() {
 
+    
 
 
 
-}
+})();
+
+//gameplay controller module
+var gamePlay = (function() {
+
+
+
+
+})();
+
