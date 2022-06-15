@@ -25,21 +25,40 @@ var gameBoard =   (function() {
 // player creation factory function
 var Player = (name) => {
 
-    const playerName = name;
+    var playerName = name;
 
-    function _changeName (name) {
-        playerName = name;
+    let changeName = function(newname) {
+        playerName = newname;
     }
 
+    let getName = function() {
+        return playerName;
+    }
 
+    const turn = function(){
 
-
+    }
 
     return {
-
+        getName: getName,
+        changeName: changeName,
+        turn: turn
     }
 
 }
+
+let player1 = Player("Yuri");
+console.log(player1);
+let n = player1.getName();
+console.log(n);
+player1.changeName("Russ");
+console.log(player1.getName());
+console.log(player1.playerName);
+
+let player2 = Player("Arietty");
+console.log(player2.getName());
+
+
 
 // display controller module 
 var displayController = (function() {
@@ -51,9 +70,10 @@ var displayController = (function() {
         const board = gameBoard.getBoard();
 
         for (i = 0; i < board.length; i++) {
-            squares[i].textContent = board[i];
+            squares[i].firstChild.textContent = board[i];
         }
     }
+
 
 
     return {
@@ -72,3 +92,4 @@ var gamePlay = (function() {
 
 })();
 
+displayController.update();
