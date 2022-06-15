@@ -8,7 +8,7 @@ var gameBoard =   (function() {
     ];
 
     const getBoard = function() {
-        return gameboard;
+        return _getBoard();
     }
 
     const _getBoard = function() {
