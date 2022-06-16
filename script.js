@@ -1,25 +1,35 @@
 // gameboard module
 var gameBoard =   (function() {
 
+    // PRIVATE VARIABLES 
     var gameboard = [
          "_", "_", "_",
          "_", "_", "_",
          "_", "_", "_"
     ];
 
-    const getBoard = function() {
-        return _getBoard();
-    }
+    // PRIVATE METHODS
 
     const _getBoard = function() {
         return gameboard;
     }
+    
+    // PUBLIC METHODS 
 
+    const getBoard = function() {
+        return _getBoard();
+    }
+
+    //update a square
     const update = function(square) {
-        gameboard[square] = "X";
+        gameboard[square] = gamePlay.activePlayer().getSymbol();
         displayController.update();
 
     }
+
+
+
+
     return {
         getBoard: getBoard,
         update: update
@@ -27,23 +37,38 @@ var gameBoard =   (function() {
 
 })();
 
+
 //gameplay controller module
 var gamePlay = (function() {
+    
+    var currentPlayer;
 
+    const changePlayer = function() {
+        if (currentPlayer === player1) {
+            currentPlayer = player2;
+        } else {
+            currentPlayer = player1;
+        }
 
+    }
 
+    const activePlayer = function() {
+        return currentPlayer;
+
+    }
     return {
-
-
+        activePlayer: activePlayer,
+        changePlayer: changePlayer
 
     }
 
 })();
 
 // player creation factory function
-var Player = (name) => {
+var Player = (name, symbol) => {
 
     var playerName = name;
+    var symbol = symbol;
 
     let changeName = function(newname) {
         playerName = newname;
@@ -53,6 +78,15 @@ var Player = (name) => {
         return playerName;
     }
 
+    const changeSymbol = function() {
+
+        
+    }
+
+    const getSymbol = function () {
+        return symbol;
+    }
+
     const turn = function(){
 
     }
@@ -60,7 +94,8 @@ var Player = (name) => {
     return {
         getName: getName,
         changeName: changeName,
-        turn: turn
+        turn: turn,
+        getSymbol: getSymbol
     }
 
 }
@@ -80,9 +115,11 @@ var displayController = (function() {
         }
     }
 
+    // mark a square
     const changeSquare = function(e){
         _whichSquare(e);
         gameBoard.update(squareNum);
+        gamePlay.changePlayer();
     }
 
     // PRIVATE: find which square we clicked on
@@ -113,13 +150,14 @@ document.addEventListener("click", function(e){
 
 displayController.update();
 
-let player1 = Player("Yuri");
+let player1 = Player("Yuri", "X");
 console.log(player1);
 let n = player1.getName();
 console.log(n);
-player1.changeName("Russ");
+player1.changeName("Russ", "O");
 console.log(player1.getName());
 console.log(player1.playerName);
 
-let player2 = Player("Arietty");
+let player2 = Player("Arietty", "O");
 console.log(player2.getName());
+gamePlay.changePlayer();
