@@ -13,6 +13,11 @@ var gameBoard =   (function() {
     const _getBoard = function() {
         return gameboard;
     }
+
+    const _isEmpty = function(square) {
+        //is it empty
+        return (gameboard[square] === "_")
+    }
     
     // PUBLIC METHODS 
 
@@ -22,8 +27,11 @@ var gameBoard =   (function() {
 
     //update a square
     const update = function(square) {
-        gameboard[square] = gamePlay.activePlayer().getSymbol();
-        displayController.update();
+        if (_isEmpty(square)) {
+             gameboard[square] = gamePlay.activePlayer().getSymbol();
+             displayController.update();
+             gamePlay.changePlayer();
+        }
 
     }
 
@@ -119,7 +127,6 @@ var displayController = (function() {
     const changeSquare = function(e){
         _whichSquare(e);
         gameBoard.update(squareNum);
-        gamePlay.changePlayer();
     }
 
     // PRIVATE: find which square we clicked on
