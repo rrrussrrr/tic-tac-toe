@@ -1,3 +1,4 @@
+
 // gameboard module
 var gameBoard =   (function() {
 
@@ -45,33 +46,6 @@ var gameBoard =   (function() {
 
 })();
 
-
-//gameplay controller module
-var gamePlay = (function() {
-    
-    var currentPlayer;
-
-    const changePlayer = function() {
-        if (currentPlayer === player1) {
-            currentPlayer = player2;
-        } else {
-            currentPlayer = player1;
-        }
-
-    }
-
-    const activePlayer = function() {
-        return currentPlayer;
-
-    }
-    return {
-        activePlayer: activePlayer,
-        changePlayer: changePlayer
-
-    }
-
-})();
-
 // player creation factory function
 var Player = (name, symbol) => {
 
@@ -107,6 +81,37 @@ var Player = (name, symbol) => {
     }
 
 }
+
+//gameplay controller module
+var gamePlay = (function() {
+    
+    var player1 = Player("Yuri", "X");
+    var player2 = Player("Arietty", "O");
+
+    var currentPlayer = player1;
+
+    const changePlayer = function() {
+        if (currentPlayer === player1) {
+            currentPlayer = player2;
+        } else {
+            currentPlayer = player1;
+        }
+
+    }
+
+    const activePlayer = function() {
+        return currentPlayer;
+
+    }
+    return {
+        activePlayer: activePlayer,
+        changePlayer: changePlayer,
+        player1: player1,
+        player2: player2
+
+    }
+
+})();
 
 // display controller module 
 var displayController = (function() {
@@ -146,7 +151,6 @@ var displayController = (function() {
 
 document.addEventListener("click", function(e){
     if (e.target.classList.contains("square")) {
-        console.log("clicked square")
         displayController.changeSquare(e);
         console.log()
 
@@ -157,14 +161,3 @@ document.addEventListener("click", function(e){
 
 displayController.update();
 
-let player1 = Player("Yuri", "X");
-console.log(player1);
-let n = player1.getName();
-console.log(n);
-player1.changeName("Russ", "O");
-console.log(player1.getName());
-console.log(player1.playerName);
-
-let player2 = Player("Arietty", "O");
-console.log(player2.getName());
-gamePlay.changePlayer();
