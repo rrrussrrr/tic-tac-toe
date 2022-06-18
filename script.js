@@ -51,27 +51,53 @@ var gameBoard = (function() {
 
         //find the row number
         let rowNum = Math.floor(square/n);
-        console.log("rowNum " + rowNum);
-        console.log ("selected square is " + square);
         //go to the beginning of the column
         let colNum = square - (n * rowNum);
         let i = colNum;
-        console.log("i is " + i);
         //keep adding n unless already in last row
         while (i < (n*n)){
-            console.log("square has " + gameboard[i]);
-            console.log("current symbol " + gamePlay.activePlayer().getSymbol());
             //move down the column 
             if (gameboard[i] !== gamePlay.activePlayer().getSymbol()){
 
                 return false;
             }
-            console.log("i =" + i);
+
             i+=n;
         }
-        console.log("working");
         return true;
 
+    }
+
+    const _diagCheck = function (square) {
+
+        let i = 0;
+        while (i < (n*n)) {
+            if (gameboard[i] !== gamePlay.activePlayer().getSymbol()){
+                return false;
+            }
+
+
+            //move down the diagonal
+            i = i + n + 1;
+        }
+        return true;
+    }
+
+    const _revDiagCheck = function (square) {
+
+        // start at top right corner
+        let i = n-1;
+        console.log(i);
+        // stop at bottom left corner
+        while (i < (n * n) - (n-1) ) {
+            if (gameboard[i] !== gamePlay.activePlayer().getSymbol()){
+                return false;
+            }
+            //move down the diagonal
+            i = i + n - 1;
+            console.log(i);
+        }
+        return true;
     }
 
 
@@ -91,7 +117,8 @@ var gameBoard = (function() {
         if (_isEmpty(square)) {
              gameboard[square] = gamePlay.activePlayer().getSymbol();
              displayController.update();
-             if (_rowCheck(square) || _colCheck(square)) {
+             if (_rowCheck(square) || _colCheck(square) 
+             || _diagCheck(square) || _revDiagCheck(square)) {
                 console.log("win");
              }
              gamePlay.changePlayer();
