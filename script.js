@@ -5,9 +5,9 @@ var gameBoard = (function() {
     let n = 3;
     // PRIVATE VARIABLES 
     var gameboard = [
-         "_", "_", "_",
-         "_", "_", "_",
-         "_", "_", "_"
+         "", "", "",
+         "", "", "",
+         "", "", ""
     ];
 
 
@@ -20,15 +20,13 @@ var gameBoard = (function() {
 
     const _isEmpty = function(square) {
         //is it empty
-        return (gameboard[square] === "_")
+        return (gameboard[square] === "")
     }
 
     const _winCheck = function(square) {
-        
 
-
-        
-        return
+        return (_rowCheck(square) || _colCheck(square) 
+        || _diagCheck(square) || _revDiagCheck(square))
 
     }
 
@@ -38,13 +36,12 @@ var gameBoard = (function() {
         let colNum = square % n;
         //go to the beginning of the row
         for (i = (square - colNum); i < ((square - colNum) + n); i++) {
-            if (gameboard[i] !== gamePlay.activePlayer().getSymbol()){
+            if (gameboard[i] !== gamePlay.currentPlayer().getSymbol()){
 
                 return false;
             }
         }
         return true;
-
     }
 
     const _colCheck = function(square){
@@ -57,7 +54,7 @@ var gameBoard = (function() {
         //keep adding n unless already in last row
         while (i < (n*n)){
             //move down the column 
-            if (gameboard[i] !== gamePlay.activePlayer().getSymbol()){
+            if (gameboard[i] !== gamePlay.currentPlayer().getSymbol()){
 
                 return false;
             }
@@ -65,14 +62,13 @@ var gameBoard = (function() {
             i+=n;
         }
         return true;
-
     }
 
     const _diagCheck = function (square) {
 
         let i = 0;
         while (i < (n*n)) {
-            if (gameboard[i] !== gamePlay.activePlayer().getSymbol()){
+            if (gameboard[i] !== gamePlay.currentPlayer().getSymbol()){
                 return false;
             }
 
@@ -90,7 +86,7 @@ var gameBoard = (function() {
         console.log(i);
         // stop at bottom left corner
         while (i < (n * n) - (n-1) ) {
-            if (gameboard[i] !== gamePlay.activePlayer().getSymbol()){
+            if (gameboard[i] !== gamePlay.currentPlayer().getSymbol()){
                 return false;
             }
             //move down the diagonal
@@ -115,7 +111,7 @@ var gameBoard = (function() {
     //update a square
     const update = function(square) {
         if (_isEmpty(square)) {
-             gameboard[square] = gamePlay.activePlayer().getSymbol();
+             gameboard[square] = gamePlay.currentPlayer().getSymbol();
              displayController.update();
              if (_rowCheck(square) || _colCheck(square) 
              || _diagCheck(square) || _revDiagCheck(square)) {
@@ -178,23 +174,24 @@ var gamePlay = (function() {
     var player1 = Player("Yuri", "X");
     var player2 = Player("Arietty", "O");
 
-    var currentPlayer = player1;
+
+    var activePlayer = player1;
 
     const changePlayer = function() {
-        if (currentPlayer === player1) {
-            currentPlayer = player2;
+        if (activePlayer === player1) {
+            activePlayer = player2;
         } else {
-            currentPlayer = player1;
+            activePlayer = player1;
         }
 
     }
 
-    const activePlayer = function() {
-        return currentPlayer;
+    const currentPlayer = function() {
+        return activePlayer;
 
     }
     return {
-        activePlayer: activePlayer,
+        currentPlayer: currentPlayer,
         changePlayer: changePlayer,
         player1: player1,
         player2: player2
@@ -208,6 +205,9 @@ var displayController = (function() {
 
     //nodelist for squares on DOM
     const squares = document.querySelectorAll(".square");
+    const player1 = document.getElementById("player1");
+    const player2 = document.getElementById("player2");
+    const whoseturn = document.getElementById("whoseturn");
     var squareNum;
     // update the board display
     const update = function() {
@@ -224,19 +224,30 @@ var displayController = (function() {
         gameBoard.update(squareNum);
     }
 
+    // show current player
+    const currentPlayer = function() {
+        whoseturn.textContent = gamePlay.currentPlayer().getName();
+
+    }
+
     // PRIVATE: find which square we clicked on
     const _whichSquare = function(e) {
         squareNum = Array.prototype.indexOf.call(squares, e.target);
     }
 
+
+
     return {
         update: update,
-        changeSquare: changeSquare
+        changeSquare: changeSquare,
+        currentPlayer: currentPlayer
     }
 
 
 
 })();
+
+displayController.currentPlayer();
 
 document.addEventListener("click", function(e){
     if (e.target.classList.contains("square")) {
