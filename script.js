@@ -97,15 +97,17 @@ var gameBoard = (function() {
     }
 
 
-
-
-
-
-    
     // PUBLIC METHODS 
 
     const getBoard = function() {
         return _getBoard();
+    }
+
+    // empty board for new game
+    const clearBoard = function() {
+        for (i = 0; i < gameboard.length; i++) {
+            gameboard[i]="";
+        }
     }
 
     //update a square
@@ -127,7 +129,8 @@ var gameBoard = (function() {
 
     return {
         getBoard: getBoard,
-        update: update
+        update: update,
+        clearBoard: clearBoard
     };
 
 })();
@@ -174,14 +177,15 @@ var gamePlay = (function() {
     var player1 = Player("Yuri", "X");
     var player2 = Player("Arietty", "O");
 
-
     var activePlayer = player1;
 
     const changePlayer = function() {
         if (activePlayer === player1) {
             activePlayer = player2;
+            displayController.currentPlayer();
         } else {
             activePlayer = player1;
+            displayController.currentPlayer();
         }
 
     }
@@ -226,9 +230,9 @@ var displayController = (function() {
 
     // show current player
     const currentPlayer = function() {
-        whoseturn.textContent = gamePlay.currentPlayer().getName();
+        whoseturn.textContent = gamePlay.currentPlayer().getName() + `'s turn`;
 
-    }
+    };
 
     // PRIVATE: find which square we clicked on
     const _whichSquare = function(e) {
@@ -248,6 +252,7 @@ var displayController = (function() {
 })();
 
 displayController.currentPlayer();
+displayController.update();
 
 document.addEventListener("click", function(e){
     if (e.target.classList.contains("square")) {
@@ -259,5 +264,4 @@ document.addEventListener("click", function(e){
 
 });
 
-displayController.update();
 
