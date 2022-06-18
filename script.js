@@ -1,13 +1,16 @@
 
 // gameboard module
-var gameBoard =   (function() {
+var gameBoard = (function() {
 
+    let n = 3;
     // PRIVATE VARIABLES 
     var gameboard = [
          "_", "_", "_",
          "_", "_", "_",
          "_", "_", "_"
     ];
+
+
 
     // PRIVATE METHODS
 
@@ -19,6 +22,63 @@ var gameBoard =   (function() {
         //is it empty
         return (gameboard[square] === "_")
     }
+
+    const _winCheck = function(square) {
+        
+
+
+        
+        return
+
+    }
+
+    const _rowCheck = function(square){
+
+        //find the column number
+        let colNum = square % n;
+        //go to the beginning of the row
+        for (i = (square - colNum); i < ((square - colNum) + n); i++) {
+            if (gameboard[i] !== gamePlay.activePlayer().getSymbol()){
+
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    const _colCheck = function(square){
+
+        //find the row number
+        let rowNum = Math.floor(square/n);
+        console.log("rowNum " + rowNum);
+        console.log ("selected square is " + square);
+        //go to the beginning of the column
+        let colNum = square - (n * rowNum);
+        let i = colNum;
+        console.log("i is " + i);
+        //keep adding n unless already in last row
+        while (i < (n*n)){
+            console.log("square has " + gameboard[i]);
+            console.log("current symbol " + gamePlay.activePlayer().getSymbol());
+            //move down the column 
+            if (gameboard[i] !== gamePlay.activePlayer().getSymbol()){
+
+                return false;
+            }
+            console.log("i =" + i);
+            i+=n;
+        }
+        console.log("working");
+        return true;
+
+    }
+
+
+
+
+
+
     
     // PUBLIC METHODS 
 
@@ -31,6 +91,9 @@ var gameBoard =   (function() {
         if (_isEmpty(square)) {
              gameboard[square] = gamePlay.activePlayer().getSymbol();
              displayController.update();
+             if (_rowCheck(square) || _colCheck(square)) {
+                console.log("win");
+             }
              gamePlay.changePlayer();
         }
 
@@ -137,7 +200,6 @@ var displayController = (function() {
     // PRIVATE: find which square we clicked on
     const _whichSquare = function(e) {
         squareNum = Array.prototype.indexOf.call(squares, e.target);
-        console.log(squareNum);
     }
 
     return {
