@@ -140,6 +140,7 @@ var Player = (name, symbol) => {
 
     var playerName = name;
     var symbol = symbol;
+    var ai = false;
 
     let changeName = function(newname) {
         playerName = newname;
@@ -162,11 +163,16 @@ var Player = (name, symbol) => {
 
     }
 
+    const isAI = function(){
+        return ai;
+    }
+
     return {
         getName: getName,
         changeName: changeName,
         turn: turn,
-        getSymbol: getSymbol
+        getSymbol: getSymbol,
+        isAI: isAI
     }
 
 }
@@ -296,7 +302,10 @@ var displayController = (function() {
         // we clicking a square?
          if (e.target.classList.contains("square")) {
             _whichSquare(e);
-            gamePlay.squareClicked(squareNum);
+            // is the current player AI?
+            if (!gamePlay.currentPlayer().isAI()) {
+                gamePlay.squareClicked(squareNum);
+            }
          } else if (e.target.classList.contains("reset")) {
             gamePlay.reset();
 
