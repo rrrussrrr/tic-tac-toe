@@ -10,18 +10,7 @@ var gameBoard = (function() {
          "", "", ""
     ];
 
-
-
     // PRIVATE METHODS
-
-    const _getBoard = function() {
-        return gameboard;
-    }
-
-    const isEmpty = function(square) {
-        //is it empty
-        return (gameboard[square] === "")
-    }
 
     const _rowCheck = function(square){
 
@@ -88,7 +77,13 @@ var gameBoard = (function() {
     // PUBLIC METHODS 
 
     const getBoard = function() {
-        return _getBoard();
+        return gameboard;
+    }
+
+    // checks if a square is empty
+    const isEmpty = function(square) {
+        //is it empty
+        return (gameboard[square] === "")
     }
 
     // empty board for new game
@@ -198,11 +193,6 @@ var gamePlay = (function() {
         return activePlayer;
     }
 
-    const checkWin = function() {
-
-
-    }
-
     // a square was clicked, check stuff
     const squareClicked = function(square) {
         //check board
@@ -213,7 +203,6 @@ var gamePlay = (function() {
             displayController.update();
 
             //check win
-
             if (gameBoard.winCheck(square)) {
                 console.log("win");
             } 
@@ -221,6 +210,7 @@ var gamePlay = (function() {
             else if (gameBoard.tieCheck(square)) {
                 console.log("tie");
             } 
+
             // if no win/tie, next player's turn
             else {
                 changePlayer();
@@ -243,12 +233,20 @@ var gamePlay = (function() {
 // display controller module 
 var displayController = (function() {
 
-    //nodelist for squares on DOM
+    //DOM element pointers
     const squares = document.querySelectorAll(".square");
     const player1 = document.getElementById("player1");
     const player2 = document.getElementById("player2");
     const whoseturn = document.getElementById("whoseturn");
     var squareNum;
+
+    // PRIVATE
+    //find which square we clicked on
+    const _whichSquare = function(e) {
+        squareNum = Array.prototype.indexOf.call(squares, e.target);
+    }
+
+    // PUBLIC
     // update the board display
     const update = function() {
         const board = gameBoard.getBoard();
@@ -257,23 +255,14 @@ var displayController = (function() {
             squares[i].textContent = board[i];
         }
     }
-
-    // mark a square
-    const changeSquare = function(e){
-        _whichSquare(e);
-        gameBoard.update(squareNum);
-    }
-
     // show current player
     const currentPlayer = function() {
         whoseturn.textContent = gamePlay.currentPlayer().getName() + `'s turn`;
-
     };
 
-    // PRIVATE: find which square we clicked on
-    const _whichSquare = function(e) {
-        squareNum = Array.prototype.indexOf.call(squares, e.target);
-    }
+    // initial board display
+    update();
+    currentPlayer();
 
     // monitoring square clicks, it all starts here
     document.addEventListener("click", function(e){
@@ -285,7 +274,6 @@ var displayController = (function() {
 
     return {
         update: update,
-        changeSquare: changeSquare,
         currentPlayer: currentPlayer
     }
 
@@ -293,8 +281,8 @@ var displayController = (function() {
 
 })();
 
-displayController.currentPlayer();
-displayController.update();
+
+
 
 
 
