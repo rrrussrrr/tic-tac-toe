@@ -176,8 +176,19 @@ var gamePlay = (function() {
     
     var player1 = Player("Yuri", "X");
     var player2 = Player("Arietty", "O");
+    var win = false;
+    var tie = false;
 
     var activePlayer = player1;
+
+    // PRIVATE
+
+    const _gameWon = function () {
+        win = true;
+    }
+    const _gameTie = function () {
+        tie = true;
+    }
 
     const changePlayer = function() {
         if (activePlayer === player1) {
@@ -196,7 +207,7 @@ var gamePlay = (function() {
     // a square was clicked, check stuff
     const squareClicked = function(square) {
         //check board
-        if (gameBoard.isEmpty(square)) {
+        if (gameBoard.isEmpty(square) && win === false && tie === false) {
             //update board
             gameBoard.update(square);
             //update display
@@ -205,10 +216,12 @@ var gamePlay = (function() {
             //check win
             if (gameBoard.winCheck(square)) {
                 console.log("win");
+                _gameWon();
             } 
             // check tie
             else if (gameBoard.tieCheck(square)) {
                 console.log("tie");
+                _gameTie();
             } 
 
             // if no win/tie, next player's turn
