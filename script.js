@@ -18,16 +18,9 @@ var gameBoard = (function() {
         return gameboard;
     }
 
-    const _isEmpty = function(square) {
+    const isEmpty = function(square) {
         //is it empty
         return (gameboard[square] === "")
-    }
-
-    const _winCheck = function(square) {
-
-        return (_rowCheck(square) || _colCheck(square) 
-        || _diagCheck(square) || _revDiagCheck(square))
-
     }
 
     const _rowCheck = function(square){
@@ -55,7 +48,6 @@ var gameBoard = (function() {
         while (i < (n*n)){
             //move down the column 
             if (gameboard[i] !== gamePlay.currentPlayer().getSymbol()){
-
                 return false;
             }
 
@@ -81,7 +73,6 @@ var gameBoard = (function() {
 
         // start at top right corner
         let i = n-1;
-        console.log(i);
         // stop at bottom left corner
         while (i < (n * n) - (n-1) ) {
             if (gameboard[i] !== gamePlay.currentPlayer().getSymbol()){
@@ -89,19 +80,10 @@ var gameBoard = (function() {
             }
             //move down the diagonal
             i = i + n - 1;
-            console.log(i);
         }
         return true;
     }
-    const _tieCheck = function(){
 
-        for (i=0; i < gameboard.length; i++) {
-            if (gameboard[i] === "") {
-                return false;
-            }
-        }
-        return true;
-    }
 
     // PUBLIC METHODS 
 
@@ -116,16 +98,30 @@ var gameBoard = (function() {
         }
     }
 
+    // check for a winning condition
+    const winCheck = function(square) {
+        if (_rowCheck(square) || _colCheck(square) || _diagCheck(square) || _revDiagCheck(square)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // check for a tie
+    const tieCheck = function(){
+
+        for (i=0; i < gameboard.length; i++) {
+            if (gameboard[i] === "") {
+                return false;
+            }
+        }
+        return true;
+    }
+
     //update a square
     const update = function(square) {
-        if (_isEmpty(square)) {
+        if (isEmpty(square)) {
              gameboard[square] = gamePlay.currentPlayer().getSymbol();
-             displayController.update();
-             if (_rowCheck(square) || _colCheck(square) 
-             || _diagCheck(square) || _revDiagCheck(square)) {
-                console.log("win");
-             }
-             gamePlay.changePlayer();
         }
 
     }
@@ -136,7 +132,10 @@ var gameBoard = (function() {
     return {
         getBoard: getBoard,
         update: update,
-        clearBoard: clearBoard
+        clearBoard: clearBoard,
+        tieCheck: tieCheck,
+        winCheck: winCheck,
+        isEmpty: isEmpty
     };
 
 })();
@@ -204,9 +203,36 @@ var gamePlay = (function() {
 
     }
 
+    // a square was clicked, check stuff
+    const squareClicked = function(square) {
+        //check board
+        if (gameBoard.isEmpty(square)) {
+            //update board
+            gameBoard.update(square);
+            //update display
+            displayController.update();
+
+            //check win
+
+            if (gameBoard.winCheck(square)) {
+                console.log("win");
+            } 
+            // check tie
+            else if (gameBoard.tieCheck(square)) {
+                console.log("tie");
+            } 
+            // if no win/tie, next player's turn
+            else {
+                changePlayer();
+            }
+        }
+
+    }
+
     return {
         currentPlayer: currentPlayer,
         changePlayer: changePlayer,
+        squareClicked: squareClicked,
         player1: player1,
         player2: player2
 
@@ -249,7 +275,13 @@ var displayController = (function() {
         squareNum = Array.prototype.indexOf.call(squares, e.target);
     }
 
-
+    // monitoring square clicks, it all starts here
+    document.addEventListener("click", function(e){
+         if (e.target.classList.contains("square")) {
+            _whichSquare(e);
+            gamePlay.squareClicked(squareNum);
+         } 
+    });
 
     return {
         update: update,
@@ -264,14 +296,6 @@ var displayController = (function() {
 displayController.currentPlayer();
 displayController.update();
 
-document.addEventListener("click", function(e){
-    if (e.target.classList.contains("square")) {
-        displayController.changeSquare(e);
-        console.log()
 
-    } 
-
-
-});
 
 
