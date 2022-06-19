@@ -63,7 +63,6 @@ var gameBoard = (function() {
         }
         return true;
     }
-
     const _diagCheck = function (square) {
 
         let i = 0;
@@ -78,7 +77,6 @@ var gameBoard = (function() {
         }
         return true;
     }
-
     const _revDiagCheck = function (square) {
 
         // start at top right corner
@@ -95,7 +93,15 @@ var gameBoard = (function() {
         }
         return true;
     }
+    const _tieCheck = function(){
 
+        for (i=0; i < gameboard.length; i++) {
+            if (gameboard[i] === "") {
+                return false;
+            }
+        }
+        return true;
+    }
 
     // PUBLIC METHODS 
 
@@ -187,13 +193,17 @@ var gamePlay = (function() {
             activePlayer = player1;
             displayController.currentPlayer();
         }
-
     }
 
     const currentPlayer = function() {
         return activePlayer;
+    }
+
+    const checkWin = function() {
+
 
     }
+
     return {
         currentPlayer: currentPlayer,
         changePlayer: changePlayer,
