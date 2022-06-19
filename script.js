@@ -175,7 +175,7 @@ var Player = (name, symbol) => {
 var gamePlay = (function() {
     
     var player1 = Player("Yuri", "X");
-    var player2 = Player("Arietty", "O");
+    var player2 = Player("Russ", "O");
     var win = false;
     var tie = false;
 
@@ -190,6 +190,8 @@ var gamePlay = (function() {
         tie = true;
     }
 
+    // PUBLIC 
+    // change active player because it's their turn
     const changePlayer = function() {
         if (activePlayer === player1) {
             activePlayer = player2;
@@ -200,8 +202,19 @@ var gamePlay = (function() {
         }
     }
 
+    // return the active player
     const currentPlayer = function() {
         return activePlayer;
+    }
+
+    //restart game
+    const reset = function () {
+        // clear the board
+        gameBoard.clearBoard();
+        displayController.updateBoard();
+        win = false;
+        tie = false;
+        activePlayer = player1;
     }
 
     // a square was clicked, check stuff
@@ -211,7 +224,7 @@ var gamePlay = (function() {
             //update board
             gameBoard.update(square);
             //update display
-            displayController.update();
+            displayController.updateBoard();
 
             //check win
             if (gameBoard.winCheck(square)) {
@@ -236,6 +249,7 @@ var gamePlay = (function() {
         currentPlayer: currentPlayer,
         changePlayer: changePlayer,
         squareClicked: squareClicked,
+        reset:reset,
         player1: player1,
         player2: player2
 
@@ -261,7 +275,7 @@ var displayController = (function() {
 
     // PUBLIC
     // update the board display
-    const update = function() {
+    const updateBoard = function() {
         const board = gameBoard.getBoard();
 
         for (i = 0; i < board.length; i++) {
@@ -274,19 +288,24 @@ var displayController = (function() {
     };
 
     // initial board display
-    update();
+    updateBoard();
     currentPlayer();
 
     // monitoring square clicks, it all starts here
     document.addEventListener("click", function(e){
+        // we clicking a square?
          if (e.target.classList.contains("square")) {
             _whichSquare(e);
             gamePlay.squareClicked(squareNum);
-         } 
+         } else if (e.target.classList.contains("reset")) {
+            gamePlay.reset();
+
+         }
+
     });
 
     return {
-        update: update,
+        updateBoard: updateBoard,
         currentPlayer: currentPlayer
     }
 
