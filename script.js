@@ -145,24 +145,29 @@ var Player = (name, symbol) => {
     let changeName = function(newname) {
         playerName = newname;
     }
-
     let getName = function() {
         return playerName;
     }
-
     const changeSymbol = function() {
 
-        
     }
-
     const getSymbol = function () {
         return symbol;
     }
 
     const turn = function(){
+        //does nothing if human player
 
+        if (ai) {
+
+
+
+            // pass a square #
+            return square;
+        }
     }
 
+    // check if AI
     const isAI = function(){
         return ai;
     }
@@ -201,9 +206,11 @@ var gamePlay = (function() {
     const changePlayer = function() {
         if (activePlayer === player1) {
             activePlayer = player2;
+            player2.turn();
             displayController.currentPlayer();
         } else {
             activePlayer = player1;
+            player1.turn();
             displayController.currentPlayer();
         }
     }
@@ -225,28 +232,35 @@ var gamePlay = (function() {
 
     // a square was clicked, check stuff
     const squareClicked = function(square) {
-        //check board
-        if (gameBoard.isEmpty(square) && win === false && tie === false) {
-            //update board
-            gameBoard.update(square);
-            //update display
-            displayController.updateBoard();
+        //check if already game over
+        if (win === false && tie === false) {
+            // check if valid square
+            if (gameBoard.isEmpty(square)) {
+                //update board
+                gameBoard.update(square);
+                //update display
+                displayController.updateBoard();
 
-            //check win
-            if (gameBoard.winCheck(square)) {
-                console.log("win");
-                _gameWon();
-            } 
-            // check tie
-            else if (gameBoard.tieCheck(square)) {
-                console.log("tie");
-                _gameTie();
-            } 
-
-            // if no win/tie, next player's turn
-            else {
-                changePlayer();
+                //check win
+                if (gameBoard.winCheck(square)) {
+                    console.log("win");
+                    _gameWon();
+                } 
+                // check tie
+                else if (gameBoard.tieCheck(square)) {
+                    console.log("tie");
+                    _gameTie();
+                } 
+                // if no win/tie, next player's turn
+                else {
+                    changePlayer();
+                }
             }
+            // not valid square so still current player's turn
+            else {
+                // does nothing for human but gives AI another pick
+                currentPlayer().turn();
+            } 
         }
 
     }
