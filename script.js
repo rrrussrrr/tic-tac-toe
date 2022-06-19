@@ -136,11 +136,11 @@ var gameBoard = (function() {
 })();
 
 // player creation factory function
-var Player = (name, symbol) => {
+var Player = (name, symbol, ai) => {
 
     var playerName = name;
     var symbol = symbol;
-    var ai = false;
+    var ai = ai;
 
     let changeName = function(newname) {
         playerName = newname;
@@ -158,12 +158,15 @@ var Player = (name, symbol) => {
     const turn = function(){
         //does nothing if human player
 
+
+        // AI Stuff
         if (ai) {
 
+            // random number gen
+            let square = Math.floor(Math.random() * 9);
 
-
-            // pass a square #
-            return square;
+            // pass a square value after a second
+            setTimeout(function () {gamePlay.squareClicked(square)}, 1000);
         }
     }
 
@@ -185,8 +188,8 @@ var Player = (name, symbol) => {
 //gameplay controller module
 var gamePlay = (function() {
     
-    var player1 = Player("Yuri", "X");
-    var player2 = Player("Russ", "O");
+    var player1 = Player("Yuri", "X", false);
+    var player2 = Player("Russ", "O", true);
     var win = false;
     var tie = false;
 
