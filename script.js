@@ -155,18 +155,22 @@ var Player = (name, symbol, ai) => {
         return symbol;
     }
 
+// AI
+    // turn function does nothing if human player
     const turn = function(){
-        //does nothing if human player
-
-
         // AI Stuff
         if (ai) {
+            // first pick wait a second
+            setTimeout(function () {pick()}, 500);
+        }
+    }
 
-            // random number gen
+    // call this one instantly after first pick
+    const pick = function() {
+        if (ai) {
+            //random number gen
             let square = Math.floor(Math.random() * 9);
-
-            // pass a square value after a second
-            setTimeout(function () {gamePlay.squareClicked(square)}, 1000);
+            gamePlay.squareClicked(square);
         }
     }
 
@@ -175,12 +179,18 @@ var Player = (name, symbol, ai) => {
         return ai;
     }
 
+    const setAI = function(bool){
+        ai = bool;
+    }
+
     return {
         getName: getName,
         changeName: changeName,
         turn: turn,
+        pick:pick,
         getSymbol: getSymbol,
-        isAI: isAI
+        isAI: isAI,
+        setAI: setAI
     }
 
 }
@@ -205,6 +215,8 @@ var gamePlay = (function() {
     }
 
     // PUBLIC 
+
+
     // change active player because it's their turn
     const changePlayer = function() {
         if (activePlayer === player1) {
@@ -261,8 +273,9 @@ var gamePlay = (function() {
             }
             // not valid square so still current player's turn
             else {
-                // does nothing for human but gives AI another pick
-                currentPlayer().turn();
+                // does nothing for human but gives AI another pick (instant so not excessive wait time
+                // for multiple wrong picks)
+                currentPlayer().pick();
             } 
         }
 
@@ -288,6 +301,9 @@ var displayController = (function() {
     const player1 = document.getElementById("player1");
     const player2 = document.getElementById("player2");
     const whoseturn = document.getElementById("whoseturn");
+    const loadscreen = document.getElementById("loadscreen");
+    const gametype = document.getElementById("gametype");
+    const nameform = document.getElementById("nameform");
     var squareNum;
 
     // PRIVATE
@@ -325,10 +341,41 @@ var displayController = (function() {
             }
          } else if (e.target.classList.contains("reset")) {
             gamePlay.reset();
+         } 
+         // loading screen
+         else if (e.target.classList.contains("gametypebutton")){
+            if (e.target.id === "pvc") {
+                // Player vs Computer stuff
+                gamePlay.player1.changeName("Player");
+                gamePlay.player2.changeName("Computer");
+                gamePlay.player2.setAI(true);
+                loadscreen.style.display = "none";
+            } 
 
+            else if (e.target.id === "pvp"){
+                // player vs player stuff
+                gametype.style.display = "none";
+                nameform.style.display = "block";
+            }
          }
 
     });
+
+    document.addEventListener("submit", function(e){
+        e.preventDefault();
+        const name1 = e.target.elements.name1.value;
+        const name2 = e.target.elements.name2.value;
+        gamePlay.player1.changeName(name1);
+        gamePlay.player2.changeName(name2);
+        nameform.reset();
+        currentPlayer();
+        loadscreen.style.display = "none";
+    });
+
+
+    //loading screen stuff
+
+
 
     return {
         updateBoard: updateBoard,

@@ -8,8 +8,40 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header></header>
 
+    <header>Tic-Tac-Toe</header>
+
+
+    <div id="loadscreen">
+        <div id="gametype">
+            <div class="gametypebutton" id="pvp">
+                Player vs. Player
+            </div>
+    
+            <div class="gametypebutton" id="pvc">
+                Player vs. Computer
+            </div>
+        </div>
+
+
+        <form id="nameform">
+            <div class="field">
+                <label for="name1">Player 1 Name: </label>
+                <input type="text" id="name1" name="name1" value="Player 1">
+            </div>
+            <div class="field">
+                <label for="name2">Player 2 Name: </label>
+                <input type="text" id="name2" name="name2" value="Player 2">
+            </div>
+            <div class="field">
+                <button id="nameselect" type="submit">Submit Names</button>
+            </div>
+
+
+        </form>
+
+
+    </div>
     <div id="main">
 
         <div id="player1">Player 1: 
@@ -22,7 +54,9 @@
         <div id="whoseturn">
             <span></span>
         </div>
-        <div id="wintext"></div>
+        <div id="wintext">
+
+        </div>
 
         <div id="gameboard">
 
@@ -35,15 +69,16 @@
             <span class="square"></span>
             <span class="square"></span>
             <span class="square"></span>
-    
 
+        </div>
+
+        <div class="reset">
+            Reset
+        </div>
 
     </div>
 
-        <footer></footer>
-    </div>
-
-
+    <footer></footer>
 
     <script src="script.js"></script>
 </body>

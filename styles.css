@@ -1,26 +1,34 @@
 html, body {
 
     background-color: silver;
-}
 
+
+}
+header{
+
+    text-align: center;
+}
 #main{
 
     display:flex;
     flex-direction: column;
     align-items: center;
 }
-.square {
 
-    display:flex;
-    height: 100px;
-    width: 100px;
-    border: solid black;
-    background-color: beige;
-    text-align: center;
-    font-size: 80px;
-    align-items: center;
-    justify-content: center;
+#loadscreen{
+    display:block;
+    position:absolute;
+    z-index: 1;
+    left:0;
+    right:0;
+    width:100%;
+    height:100%;
+    overflow:auto;
+    background-color: silver;
+}
 
+#nameform{
+    display:none;
 }
 
 #gameboard{
@@ -32,4 +40,18 @@ html, body {
     gap: 0px;
     height: 300px;
     width: 300px;
+}
+
+.square {
+
+    display:flex;
+    height: 100px;
+    width: 100px;
+    border: solid black;
+    background-color: beige;
+    text-align: center;
+    font-size: 100px;
+    align-items: center;
+    justify-content: center;
+
 }
