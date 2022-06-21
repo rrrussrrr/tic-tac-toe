@@ -7,6 +7,7 @@ html, body {
 header{
 
     text-align: center;
+    font-size: 50px;
 }
 #main{
 
@@ -16,7 +17,8 @@ header{
 }
 
 #loadscreen{
-    display:block;
+    display:flex;
+    justify-content: center;
     position:absolute;
     z-index: 1;
     left:0;
@@ -26,6 +28,46 @@ header{
     overflow:auto;
     background-color: silver;
 }
+
+#gametype{
+
+    height: 200px;
+    width: 400px;
+    margin-top:200px;
+    display:flex;
+    justify-content: space-between;
+    position:fixed;
+}
+
+.gametypebutton {
+
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 150px;
+    border-radius: 10px;
+}
+
+#pvp {
+
+    background-color: darkred;
+}
+
+#pvc {
+    background-color: blueviolet;
+
+}
+
+#nameform{
+
+    height: 200px;
+    width: 400px;
+    margin-top:200px;
+
+}
+
+
 
 #nameform{
     display:none;

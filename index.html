@@ -12,37 +12,40 @@
     <header>Tic-Tac-Toe</header>
 
 
-    <div id="loadscreen">
-        <div id="gametype">
-            <div class="gametypebutton" id="pvp">
-                Player vs. Player
+
+
+    <div id="main">
+
+        <div id="loadscreen">
+            <div id="gametype">
+                <div class="gametypebutton" id="pvp">
+                    Player vs. Player
+                </div>
+        
+                <div class="gametypebutton" id="pvc">
+                    Player vs. Computer
+                </div>
             </div>
     
-            <div class="gametypebutton" id="pvc">
-                Player vs. Computer
-            </div>
+    
+            <form id="nameform">
+                <div class="field">
+                    <label for="name1">Player 1 Name: </label>
+                    <input type="text" id="name1" name="name1" value="Player 1">
+                </div>
+                <div class="field">
+                    <label for="name2">Player 2 Name: </label>
+                    <input type="text" id="name2" name="name2" value="Player 2">
+                </div>
+                <div class="field">
+                    <button id="nameselect" type="submit">Submit Names</button>
+                </div>
+    
+    
+            </form>
+    
+    
         </div>
-
-
-        <form id="nameform">
-            <div class="field">
-                <label for="name1">Player 1 Name: </label>
-                <input type="text" id="name1" name="name1" value="Player 1">
-            </div>
-            <div class="field">
-                <label for="name2">Player 2 Name: </label>
-                <input type="text" id="name2" name="name2" value="Player 2">
-            </div>
-            <div class="field">
-                <button id="nameselect" type="submit">Submit Names</button>
-            </div>
-
-
-        </form>
-
-
-    </div>
-    <div id="main">
 
         <div id="player1">Player 1: 
             <span></span>
