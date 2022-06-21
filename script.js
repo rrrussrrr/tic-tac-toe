@@ -199,7 +199,7 @@ var Player = (name, symbol, ai) => {
 var gamePlay = (function() {
     
     var player1 = Player("Yuri", "X", false);
-    var player2 = Player("Russ", "O", true);
+    var player2 = Player("Russ", "O", false);
     var win = false;
     var tie = false;
 
@@ -349,6 +349,7 @@ var displayController = (function() {
                 gamePlay.player1.changeName("Player");
                 gamePlay.player2.changeName("Computer");
                 gamePlay.player2.setAI(true);
+                currentPlayer();
                 loadscreen.style.display = "none";
             } 
 
