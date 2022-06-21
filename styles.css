@@ -25,12 +25,13 @@ header{
 }
 
 .players {
-    height: 170px;
+    height: 30vw;
     margin: 0 30px 0 30px;
     display:flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    width: 15vw;
 
 }
 
@@ -96,8 +97,8 @@ header{
     display:grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0px;
-    height: 300px;
-    width: 300px;
+    height:30vw;
+    width: 30vw;
 }
 
 #p1symbol, #p2symbol{
@@ -108,8 +109,8 @@ header{
 .square {
 
     display:flex;
-    height: 100px;
-    width: 100px;
+    height: 10vw;
+    width: 10vw;
     border: solid black;
     background-color: beige;
     text-align: center;
