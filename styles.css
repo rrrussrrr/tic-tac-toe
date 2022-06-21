@@ -8,7 +8,7 @@ header{
 
     text-align: center;
     font-size: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 5vw;
 }
 #main{
 
@@ -50,9 +50,9 @@ header{
 
 #gametype{
 
-    height: 40vw;
+    height: 20vw;
     width: 80vw;
-    margin-top:40vw;
+    margin-top:20vw;
     display:flex;
     justify-content: space-between;
     position:fixed;
@@ -63,8 +63,9 @@ header{
     display:flex;
     align-items: center;
     justify-content: center;
-    height: 10vw;
-    width: 35vw;
+    height: 8vw;
+    width: 30vw;
+    font-size: 3vw;
     border-radius: 10px;
 }
 
@@ -82,7 +83,7 @@ header{
 
     height: 200px;
     width: 400px;
-    margin-top:200px;
+    margin-top:20vw;
 
 }
 
@@ -125,8 +126,9 @@ header{
     display:flex;
     align-items: center;
     justify-content: center;
-    height: 10vw;
-    width: 25vw;
+    height: 8vw;
+    width: 30vw;
+    font-size: 3vw;
     border-radius: 10px;
     background-color: #E0CDFF;
     margin-top: 10vw;
