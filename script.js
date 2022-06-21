@@ -260,11 +260,13 @@ var gamePlay = (function() {
                 if (gameBoard.winCheck(square)) {
                     console.log("win");
                     _gameWon();
+                    displayController.winText();
                 } 
                 // check tie
                 else if (gameBoard.tieCheck(square)) {
                     console.log("tie");
                     _gameTie();
+                    displayController.stalemateText();
                 } 
                 // if no win/tie, next player's turn
                 else {
@@ -304,6 +306,8 @@ var displayController = (function() {
     const loadscreen = document.getElementById("loadscreen");
     const gametype = document.getElementById("gametype");
     const nameform = document.getElementById("nameform");
+    const p1symbol = document.getElementById("p1symbol");
+    const p2symbol = document.getElementById("p2symbol");
     var squareNum;
 
     // PRIVATE
@@ -320,6 +324,15 @@ var displayController = (function() {
         for (i = 0; i < board.length; i++) {
             squares[i].textContent = board[i];
         }
+    }
+
+    const winText = function() {
+        whoseturn.textContent = gamePlay.currentPlayer().getName() + ' Wins!';
+    }
+
+    const stalemateText = function () {
+        whoseturn.textContent = `It's a tie!`;
+
     }
     // show current player
     const currentPlayer = function() {
@@ -352,6 +365,8 @@ var displayController = (function() {
                 currentPlayer();
                 player1.textContent = "Player";
                 player2.textContent = "Computer";
+                p1symbol.textContent = gamePlay.player1.getSymbol();
+                p2symbol.textContent = gamePlay.player2.getSymbol();
                 loadscreen.style.display = "none";
             } 
 
@@ -372,6 +387,8 @@ var displayController = (function() {
         gamePlay.player2.changeName(name2);
         player1.textContent = name1;
         player2.textContent = name2;
+        p1symbol.textContent = gamePlay.player1.getSymbol();
+        p2symbol.textContent = gamePlay.player2.getSymbol();
         nameform.reset();
         currentPlayer();
         loadscreen.style.display = "none";
@@ -384,7 +401,9 @@ var displayController = (function() {
 
     return {
         updateBoard: updateBoard,
-        currentPlayer: currentPlayer
+        currentPlayer: currentPlayer,
+        winText:winText,
+        stalemateText:stalemateText
     }
 
 
