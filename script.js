@@ -350,6 +350,8 @@ var displayController = (function() {
                 gamePlay.player2.changeName("Computer");
                 gamePlay.player2.setAI(true);
                 currentPlayer();
+                player1.textContent = "Player";
+                player2.textContent = "Computer";
                 loadscreen.style.display = "none";
             } 
 
@@ -368,6 +370,8 @@ var displayController = (function() {
         const name2 = e.target.elements.name2.value;
         gamePlay.player1.changeName(name1);
         gamePlay.player2.changeName(name2);
+        player1.textContent = name1;
+        player2.textContent = name2;
         nameform.reset();
         currentPlayer();
         loadscreen.style.display = "none";
